@@ -1,53 +1,53 @@
-var Item = require('./Item');
-//var LineItem=require('./LineItem')
+const Item = require('./Item');
+const LineItem = require('./LineItem');
+
 class Cart {
     constructor() {
         this.shoppingCart = [];
+        
     }
-    // createItemAndAdd(item, qty){
-    //     // let item=new Item(name,price)
-    //     // let newItem = new Item(name, price);
-    //     // qty = new LineItem(qty)
-    //     let obj1 = new LineItem(item, qty);
-    //
-    //     //arrayItem.push(qty)
-    //     this.shoppingCart.push(obj1);
-    //
-    //   }
-    createItemAndAdd(name, price,qty){
-        let newItem = new Item(name, price);
-        let arrayItem = []
-        arrayItem.push(newItem)
-        arrayItem.push(qty)
-        this.shoppingCart.push(arrayItem);
-
-    }
-
-
-    getCart(){
-           return this.shoppingCart;
-       }
-    totalPrice(){
-       let array = [];
-       this.shoppingCart.map((item) => {
-           array.push(item[0].price * item[1])
-       })
-
-       const reducer = (accumulator, currentValue) => accumulator + currentValue;
-       return array.reduce(reducer)
+    addItem(lineItem){
+        console.log(lineItem)
+        this.shoppingCart.push(lineItem);
      }
 
-      getQuantityofItems(){
-        log(this.shoppingCart)
-        return this.shoppingCart
-      }
+    getTotalItems(){
+           return this.shoppingCart;
+       }
 
-     increaseQty(name){
-       this.shoppingCart.map((item) => {
-           if (item[0].name==name) {
-               item[1]++;
-           }
-     })
-   }
+    increaseQuantity(lineItem){
+        lineItem.qty+=1
+    }
+    decreaseQuantity(lineItem){
+        lineItem.qty-=1
+        if(lineItem.qty==0){
+            delete this.shoppingCart[lineItem]
+        }
+    }
+    calculateItemPrice(lineItem){
+        return lineItem.item.price*lineItem.qty;
+    }
+
+    calculateDiscountedItemPrice(lineItem){
+        return (lineItem.item.price-lineItem.item.discountprice)*lineItem.qty
+    }
+
+    totalPrice(){
+        let array = [];
+        this.shoppingCart.map((singleitem) => {
+           array.push(singleitem.item.price*singleitem.qty)
+       })
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        return array.reduce(reducer)
+        }
+    
+    totalDiscountedPrice(){
+        let array = [];
+        this.shoppingCart.map((singleitem) => {
+           array.push((singleitem.item.price*-singleitem.item.discountprice)*singleitem.qty)
+       })
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        return array.reduce(reducer);
+        }
 }
    module.exports = Cart;

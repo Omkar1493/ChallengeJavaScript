@@ -1,26 +1,15 @@
 
+const item = require('../src/Item');
 
 class LineItem {
-    constructor(item, qty) {
+    constructor(item,qty) {
         this.item = item;
         this.qty = qty;
-    }
-
-
-    get getItem() {
-        return item;
-    }
-
-    set setItem(item) {
-        this.item = item;
     }
 
     get getQty() {
-        return qty;
+        return this.qty;
     }
 
-    set setQty(qty) {
-        this.qty = qty;
-    }
 }
   module.exports = LineItem;
